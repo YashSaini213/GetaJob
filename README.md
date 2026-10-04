@@ -346,42 +346,6 @@ This helps provide users with:
 
 ---
 
-## 📸 Screenshots
-
-### 🏠 Home Page
-
-_Add your screenshot here._
-
-```markdown
-![Home Page](./screenshots/home.png)
-```
-
-### 💼 Job Search
-
-_Add your screenshot here._
-
-```markdown
-![Job Search](./screenshots/jobs.png)
-```
-
-### 🤖 Interview Preparation
-
-_Add your screenshot here._
-
-```markdown
-![Interview Preparation](./screenshots/interview-preparation.png)
-```
-
-### 📊 Dashboard
-
-_Add your screenshot here._
-
-```markdown
-![Dashboard](./screenshots/dashboard.png)
-```
-
----
-
 ## 🚀 Future Improvements
 
 - 💼 Real-time job listings
