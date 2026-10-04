@@ -1,147 +1,421 @@
-# GetaJob — AI Interview Prep Kit
+# 💼 GetaJob — AI-Powered Job & Interview Preparation Platform
 
-This is my submission for the Trao full-stack AI interview assessment. You paste in a job description, give it a company's website, and say how many days you have until the interview — the app then researches the company, figures out what the role actually requires, generates a bank of interview questions, checks that it hasn't missed anything important, and lays out a day-by-day study plan.
+<p align="center">
+  <img src="https://raw.githubusercontent.com/halfrost/halfrost/master/icons/header_1.png" alt="banner" width="100%">
+</p>
 
-## Table of Contents
-- [What it does](#what-it-does)
-- [Tech stack and why](#tech-stack-and-why)
-- [Running it locally](#running-it-locally)
-- [Architecture](#architecture)
-- [How the research actually works](#how-the-research-actually-works)
-- [Why the steps run in this order](#why-the-steps-run-in-this-order)
-- [The builder / edit state](#the-builder--edit-state)
-- [How the schedule gets built](#how-the-schedule-gets-built)
-- [What's missing / what I'd fix with more time](#whats-missing--what-id-fix-with-more-time)
+<h1 align="center">GetaJob</h1>
 
-## What it does
+<p align="center">
+  An AI-powered full-stack platform for job research, company insights, and personalized interview preparation.
+</p>
 
-User registers, pastes a JD, gives a company URL and a day count, and hits generate. The app then:
-1. Pulls the actual requirements out of the JD (not invented ones)
-2. Crawls the company's site looking for a careers/hiring page
-3. Searches for public discussion of their interview process
-4. Generates questions for each requirement, checks nothing's uncovered, fills any gaps
-5. Builds a study schedule across however many days they said
+<p align="center">
+  <a href="https://github.com/YOUR_USERNAME/GetaJob">
+    <img src="https://img.shields.io/badge/GitHub-Repository-black?style=for-the-badge&logo=github" alt="GitHub">
+  </a>
+</p>
 
-Once it's ready you can look through the requirements, questions, and schedule, and practice against the questions flashcard-style.
+---
 
-## Tech stack and why
+## 📌 About The Project
 
-I mostly stuck with what the brief suggested (Next.js + Express + MongoDB) rather than going out of my way to use something different, since there wasn't a strong reason to deviate.
+**GetaJob** is a full-stack AI-powered job and interview preparation platform designed to help candidates prepare more effectively for their target companies and roles.
 
-A few choices worth explaining:
+The platform combines **AI-powered interview preparation** with **company and job research** to provide candidates with personalized preparation material, interview questions, and relevant information.
 
-**Zod for validation** — I hadn't used it before this assignment, but the idea is simple enough: you write one schema and get both a runtime validator and the matching TypeScript type out of it, so I'm not keeping two versions of "what a Kit looks like" in sync by hand. Given the brief requires validating a generated kit against the expected structure before saving it, this made sense.
+GetaJob uses AI and web search capabilities to help users understand what to expect from a particular company or job role and prepare accordingly.
 
-**Groq for the LLM** — genuinely free, fast, and I could actually check what models were available on my account instead of guessing from documentation (`client.models.list()`), which turned out to matter since a couple of model names I initially tried didn't exist anymore.
+---
 
-**Tavily for the interview-discussion search** — I originally tried scraping DuckDuckGo's HTML results directly with Cheerio (no API key needed), but it got flagged as bot traffic almost immediately (status 202, anomaly-detection challenge page). I'd also looked at Brave's search API, but their free tier was discontinued earlier this year and now needs a card on file, which conflicts with the brief saying nothing here should cost money. Tavily's free tier is 1,000 requests/month with no card required, so I switched to that.
+## ✨ Features
 
-**Session-based auth, not JWT** — sessions live in MongoDB via connect-mongo, mainly because Render's free tier spins the server down when idle, and I wanted sessions to survive that rather than living only in memory.
+### 👤 User Features
 
-## Running it locally
+- 🔐 User registration and authentication
+- 👤 Personalized user experience
+- 💼 Search and explore job opportunities
+- 🏢 Research companies and their interview processes
+- 🎯 Prepare for specific job roles
+- 📚 Generate personalized interview preparation material
+- 📝 AI-generated interview questions
+- 📊 Personalized preparation resources
+- 📱 Responsive user interface
 
-Backend:
+### 🤖 AI Features
+
+- 🧠 AI-powered interview preparation
+- 💬 AI-generated interview questions
+- 🎯 Role-specific preparation
+- 🏢 Company-specific interview insights
+- 📚 Personalized study and preparation plans
+- 🔎 Web-powered company research
+- ⚡ Dynamic AI-generated content
+
+### 🔎 Job & Company Research
+
+- 🏢 Company interview information
+- 💼 Job role research
+- 🔍 Web-based information retrieval
+- 📋 Relevant interview preparation resources
+- 🎯 Targeted preparation based on company and role
+
+---
+
+## 🛠️ Tech Stack
+
+### Frontend
+
+<p>
+  <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/nextjs/nextjs-original.svg" width="50" height="50" alt="Next.js">
+  <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/react/react-original-wordmark.svg" width="50" height="50" alt="React">
+  <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/javascript/javascript-original.svg" width="50" height="50" alt="JavaScript">
+  <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/css3/css3-original-wordmark.svg" width="50" height="50" alt="CSS3">
+</p>
+
+- Next.js
+- React.js
+- JavaScript
+- HTML5
+- CSS3
+- Responsive Design
+
+### Backend
+
+<p>
+  <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/nodejs/nodejs-original-wordmark.svg" width="50" height="50" alt="Node.js">
+  <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/express/express-original-wordmark.svg" width="50" height="50" alt="Express.js">
+</p>
+
+- Node.js
+- Express.js
+- REST APIs
+- Session-based authentication
+
+### Database
+
+<p>
+  <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/mongodb/mongodb-original-wordmark.svg" width="50" height="50" alt="MongoDB">
+</p>
+
+- MongoDB
+- MongoDB Atlas
+
+### AI & APIs
+
+- 🤖 Groq
+- 🔎 Tavily
+- 🧠 Large Language Models
+- 🌐 Web Search APIs
+
+### Tools
+
+- Git & GitHub
+- VS Code
+- Postman
+- npm
+- MongoDB Atlas
+
+---
+
+## 📂 Project Structure
+
+```text
+GetaJob/
+│
+├── server/
+│   ├── src/
+│   ├── controllers/
+│   ├── models/
+│   ├── routes/
+│   ├── middleware/
+│   ├── .env.example
+│   └── package.json
+│
+├── web/
+│   ├── app/
+│   ├── components/
+│   ├── public/
+│   ├── .env.local
+│   └── package.json
+│
+└── README.md
+```
+
+---
+
+## ⚙️ Installation & Setup
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/YOUR_USERNAME/GetaJob.git
+```
+
+### 2. Navigate into the project
+
+```bash
+cd GetaJob
+```
+
+---
+
+### 3. Install Backend Dependencies
+
 ```bash
 cd server
 npm install
-# copy .env.example to .env, fill in real values
+```
+
+---
+
+### 4. Configure Backend Environment Variables
+
+Create a `.env` file inside the `server` directory.
+
+Example:
+
+```env
+MONGODB_URI=your_mongodb_connection_string
+SESSION_SECRET=your_session_secret
+
+LLM_API_KEY=your_groq_api_key
+LLM_PROVIDER=groq
+LLM_MODEL=your_llm_model
+
+SEARCH_API_KEY=your_tavily_api_key
+```
+
+> ⚠️ Never commit your `.env` file to GitHub.
+
+---
+
+### 5. Start Backend
+
+```bash
 npm run dev
 ```
 
-Frontend:
+The backend will run on the port configured by the application, typically:
+
+```text
+http://localhost:4000
+```
+
+---
+
+### 6. Install Frontend Dependencies
+
+Open another terminal:
+
+```bash
+cd GetaJob/web
+npm install
+```
+
+---
+
+### 7. Configure Frontend Environment Variables
+
+Create:
+
+```text
+.env.local
+```
+
+Add:
+
+```env
+NEXT_PUBLIC_API_URL=http://localhost:4000
+```
+
+---
+
+### 8. Start Frontend
+
+```bash
+npm run dev
+```
+
+The frontend will typically be available at:
+
+```text
+http://localhost:3000
+```
+
+---
+
+## 🔐 Environment Variables
+
+### Backend
+
+| Variable | Description |
+|---|---|
+| `MONGODB_URI` | MongoDB database connection string |
+| `SESSION_SECRET` | Secret used for session management |
+| `LLM_API_KEY` | Groq API key |
+| `LLM_PROVIDER` | LLM provider |
+| `LLM_MODEL` | AI model used for generation |
+| `SEARCH_API_KEY` | Tavily API key |
+
+### Frontend
+
+| Variable | Description |
+|---|---|
+| `NEXT_PUBLIC_API_URL` | URL of the backend API |
+
+---
+
+## ▶️ Running the Application
+
+### Start Backend
+
+```bash
+cd server
+npm run dev
+```
+
+### Start Frontend
+
+Open another terminal:
+
 ```bash
 cd web
-npm install
-# create .env.local with NEXT_PUBLIC_API_URL=http://localhost:4000
 npm run dev
 ```
 
-### Batch command
+Then open:
 
-```bash
-cd server
-npm run evaluate -- --input <cases.json> --output <kits.json>
+```text
+http://localhost:3000
 ```
 
-One thing worth flagging: on Windows, there's a known npm bug where flags after `--` get silently stripped (npm/cli#9353) — I hit this myself during development. If it happens, doubling the `--` works around it:
-```bash
-npm run evaluate -- -- --input <cases.json> --output <kits.json>
-```
-This is a Windows/npm issue, not something wrong with the script — it runs fine as written on Mac/Linux.
+---
 
-### Env vars
+## 🔄 Application Workflow
 
-`MONGODB_URI`, `SESSION_SECRET`, `LLM_API_KEY`, `LLM_PROVIDER`, `LLM_MODEL`, `SEARCH_API_KEY` all live in `server/.env`. The frontend just needs `NEXT_PUBLIC_API_URL` pointing at wherever the backend is running.
-
-Deployed: frontend on Vercel (root dir `web`), backend on Render (root dir `server`, build command `npm install --include=dev && npm run build` — note the `--include=dev`, without it TypeScript itself doesn't get installed because Render sets `NODE_ENV=production` before the install step, which makes npm skip devDependencies).
-
-## Architecture
-
-```
-Next.js (Vercel)  --HTTPS + session cookie-->  Express API (Render)
-                                                      |
-                                        -------------------------------
-                                        |              |               |
-                                   MongoDB Atlas    Groq LLM      Company sites
-                                   (users, kits)    + Tavily      (crawled)
-```
-
-Backend layout, roughly in the order things get built up:
-
-```
-server/src/
-  schemas/       Zod schema for the required kit structure, plus a shared validateKit() helper
-  scheduling/    checkCoverage + buildSchedule — pure functions, no LLM involved
-  llm/           the Groq client wrapper (retry/backoff, temperature, reasoning settings)
-  pipeline/      extractRequirements, generateQuestions, and runPipeline (the orchestrator)
-  scraping/      fetchPage, findHiringPageCandidates, searchPublicDiscussion
-  models/        Mongoose models for User and Kit
-  routes/        auth.ts and kits.ts — thin route handlers
-  middleware/    requireAuth
-  scripts/       evaluate.ts, the batch entry point
+```text
+                ┌───────────────────┐
+                │       User        │
+                └─────────┬─────────┘
+                          │
+                          ▼
+                ┌───────────────────┐
+                │  Next.js Frontend │
+                └─────────┬─────────┘
+                          │
+                          ▼
+                ┌───────────────────┐
+                │ Express.js Server │
+                └─────────┬─────────┘
+                          │
+             ┌────────────┼────────────┐
+             ▼            ▼            ▼
+        ┌─────────┐  ┌─────────┐  ┌─────────┐
+        │ MongoDB │  │  Groq   │  │ Tavily  │
+        │Database │  │   AI    │  │ Search  │
+        └─────────┘  └─────────┘  └─────────┘
 ```
 
-The route handler for `POST /kits` and `scripts/evaluate.ts` both call the same `runPipeline()` function. I built it this way specifically because the brief says the batch command has to run "the same code your application uses, not a parallel implementation" — so there's exactly one place the actual pipeline logic lives.
+---
 
-Generation runs in the background, not inline in the HTTP request — a full run can take anywhere from 10 seconds to over a minute depending on how many requirements come back and whether the crawl succeeds, and that's too long to hold an HTTP connection open reliably. `POST /kits` creates a kit record with status `"generating"`, kicks off the pipeline without waiting on it, and returns immediately. The frontend polls every few seconds until the status flips to `"ready"` or `"failed"`.
+## 🤖 AI-Powered Preparation
 
-## How the research actually works
+GetaJob uses AI to help candidates prepare according to their target role and company.
 
-The job description is just pasted text — I didn't build any scraping for it, since the brief specifically says not to (most job boards block that anyway).
+The platform can generate preparation resources such as:
 
-The company URL is where the actual scraping happens. I fetch the homepage, pull every link off the page, and score each one against a list of keywords ("careers", "jobs", "hiring", "join us", "life at", etc.) checked against both the link text and the URL itself. Whatever scores highest becomes the hiring page candidate. I tested this against GitLab specifically since the brief mentions them as a company with a real, findable hiring page, and it correctly found `about.gitlab.com/jobs/` without me hardcoding that path anywhere.
+- 📝 Interview questions
+- 🎯 Role-specific preparation
+- 🏢 Company-specific insights
+- 📚 Study material
+- 💡 Interview preparation guidance
 
-For interview discussion, I search Tavily for `"{company} interview process questions"`. If the company site itself couldn't even be reached, I skip this search entirely — I noticed early on that searching for a made-up company name still returned results (random Reddit posts, an unrelated LinkedIn post), which would have made a completely fake company look like it had been genuinely researched. Skipping the search when there's nothing real to find felt more honest than including noise.
+---
 
-Every one of these steps is wrapped in a try/catch. If a company's site is down or the URL is garbage, the pipeline logs it and moves on rather than failing the whole kit — that's directly from the brief's "skip and report a source that cannot be retrieved" instruction.
+## 🔎 Web Search Integration
 
-## Why the steps run in this order
+The application uses **Tavily** to retrieve relevant web information.
 
-1. Pull requirements out of the JD first — it doesn't depend on anything else, so there's no reason to wait.
-2. Crawl the homepage, then immediately look for the hiring page — these two are really one step split in two, since the second literally needs the first's output (the list of links).
-3. Search for interview discussion, but only if step 2 actually reached the site.
-4. Generate questions one requirement at a time, not all at once from a single prompt. This was a specific point in the brief — a requirement like "5 years of React" should produce different questions than "mentors junior engineers," and calling the model separately for each one is what actually makes that distinction happen instead of everything blurring together.
-5. Check coverage — plain code, no model involved, just checking which requirement ids never show up in any question's `requirement_ids`.
-6. If there are gaps, generate more questions just for those, then check again. I capped this at two passes total so it can't loop forever if something's persistently uncovered.
-7. Build the schedule last, once I actually know the final list of questions.
+This helps provide users with:
 
-Steps 5 and 7 are both plain functions with tests — the brief was explicit that these shouldn't be handed to the model, and honestly it made more sense to me too since they're just arithmetic and set comparison, not anything that benefits from an LLM's judgment.
+- Company information
+- Interview-related information
+- Job-specific research
+- Relevant preparation resources
 
-## The builder / edit state
+---
 
-I'll be upfront — I didn't get to build this part in the UI. The brief calls this "the hardest state problem in the assessment," and my plan for it (which I didn't have time to wire up) was: give every question and flashcard a `state` field — `generated`, `edited`, or `user_added`. Regenerating a section would only touch items still marked `generated`; anything a person edited or added by hand would be left alone. Right now the kit view is read-only apart from practice mode.
+## 📸 Screenshots
 
-## How the schedule gets built
+### 🏠 Home Page
 
-Every question gets sorted by one rule: is it tied to a `must` requirement or a `nice` one, and within that, how difficult is it. Must-priority questions all come before nice-priority ones; within the same priority, harder questions come first. Then I just split that sorted list evenly across however many days were requested, giving any leftover questions to the earlier days rather than the last one — so day 1 might get one extra question instead of it landing randomly.
+_Add your screenshot here._
 
-I went back and forth on this — my first instinct was that a hard-but-optional question shouldn't necessarily beat an easy-but-required one, and I ended up deciding priority should win first, difficulty only breaks ties within the same priority tier. Someone could reasonably argue the opposite; I picked this because covering the required stuff felt like it should matter more than tackling the hardest thing in the pile.
+```markdown
+![Home Page](./screenshots/home.png)
+```
 
-## What's missing / what I'd fix with more time
+### 💼 Job Search
 
-- **The builder isn't wired up.** This is the biggest gap. The state-tracking approach above is designed but not implemented in the frontend.
-- **Flashcards and questions are currently the same thing** — practice mode just reuses the question bank rather than having its own generated flashcards. I'd separate these if I had more time.
-- **Cross-domain cookies were fiddlier than expected.** Since the frontend and backend live on different domains (Vercel vs Render), I had to explicitly set `app.set("trust proxy", 1)` on Express and mark the session cookie `sameSite: "none"` in production, or the session would silently never get set. It works now, but a same-origin setup or token-based auth would avoid this whole class of problem.
-- **Only 4 questions per requirement.** I could generate more, but each one is a real LLM call, and I wanted to stay comfortably inside Groq's free-tier rate limits rather than risk a generation failing partway through right before I needed to submit.
-- **Company name is guessed from the URL** (second-to-last part of the hostname, so `about.gitlab.com` → `gitlab`), which works for the cases I tried but isn't bulletproof against every possible domain structure.
-- **One debugging note worth mentioning:** the model I ended up using, `openai/gpt-oss-20b`, is a reasoning model, and early on it burned its entire token budget "thinking" in circles about an ambiguous rule in my own extraction prompt, without ever producing an answer. Fixed by lowering `reasoning_effort` to `"low"`, setting `temperature: 0`, and rewriting the prompt rule so it wasn't self-contradictory anymore.
+_Add your screenshot here._
+
+```markdown
+![Job Search](./screenshots/jobs.png)
+```
+
+### 🤖 Interview Preparation
+
+_Add your screenshot here._
+
+```markdown
+![Interview Preparation](./screenshots/interview-preparation.png)
+```
+
+### 📊 Dashboard
+
+_Add your screenshot here._
+
+```markdown
+![Dashboard](./screenshots/dashboard.png)
+```
+
+---
+
+## 🚀 Future Improvements
+
+- 💼 Real-time job listings
+- 📄 Resume analysis
+- 🤖 AI resume improvement
+- 🎤 AI mock interviews
+- 🗣️ Voice-based interview practice
+- 📊 Interview performance analytics
+- 📧 Job application tracking
+- 🔔 Job alerts
+- ⭐ Company reviews
+- 📱 Mobile application
+- 💬 AI career assistant
+- 📈 Personalized career recommendations
+
+---
+
+## 👨‍💻 Developer
+
+**Yashraj Saini**
+
+Full-Stack Developer | MERN | React | Node.js | AI
+
+📍 Jaipur, India
+
+- 💼 LinkedIn: [Yashraj Saini](https://www.linkedin.com/in/yashraj-saini-0aa230214/)
+- 💻 GitHub: [YashSaini213](https://github.com/YashSaini213)
+- 🌐 Portfolio: [My Portfolio](https://my-portfolio-zeta-murex-12.vercel.app/)
+- 📧 Email: yashrajsaini713@gmail.com
+
+---
+
+## ⭐ Support
+
+If you found this project useful, consider giving it a ⭐ on GitHub.
+
+Thanks for checking out **GetaJob!** 🚀
